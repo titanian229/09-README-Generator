@@ -1,8 +1,8 @@
 exports.format = function (text, type) {
-    if (text.indexOf('`') > -1){
-        text = text.split('`').join('\n```\n')
+    console.log(text)
+    if (text.indexOf("`") > -1) {
+        text = text.split("`").join("\n```\n");
     }
-
 
     if (typeof text !== "string") {
         return Error("Text was not entered into the function to format text.  Please enter text.");
@@ -29,5 +29,11 @@ exports.format = function (text, type) {
     }
     if (type === "link") {
         return `[link](${text})` + "\n";
+    }
+    if (type === "icon") {
+        // return `![UserIcon](${text})` + "\n";
+        return `<p align="left">
+        <img src="${text}" width="75" title="UserIcon">
+      </p>`;
     }
 };

@@ -8,13 +8,19 @@ function validateString(str) {
     return typeof str === "string";
 }
 
-function processList(str) {
-    //turns a list into an array
-}
-
 // function appendFile()
 
 const questions = [
+    {
+        type: "input",
+        name: "GHUsername",
+        message: "What is your GitHub username?  Required\n",
+        validate: function (inp) {
+            return inp == "" ? false : true;
+        },
+        markdownFormat: "",
+        sectionTitle: "",
+    },
     {
         type: "input",
         name: "projectTitle",
@@ -54,7 +60,7 @@ const questions = [
         name: "userIcon",
         message: "Please enter a link to your GitHub user icon : ",
         validate: validateString,
-        markdownFormat: "image",
+        markdownFormat: "",
         sectionTitle: "",
     },
     {
@@ -62,7 +68,7 @@ const questions = [
         name: "userEmail",
         message: "Please provide your email address used on GitHub : ",
         validate: validateString,
-        markdownFormat: "text",
+        markdownFormat: "",
         sectionTitle: "",
     },
     {
@@ -70,7 +76,7 @@ const questions = [
         name: "userTwitter",
         message: "What is your twitter handle? : ",
         validate: validateString,
-        markdownFormat: "text",
+        markdownFormat: "",
         sectionTitle: "",
     },
     {
@@ -109,13 +115,11 @@ const questions = [
         sectionTitle: "Usage",
     },
     {
-        type: "input",
+        type: "confirm",
         name: "optionalLicense",
-        message:
-            "What license does your project use?  See https://choosealicense.com/ for options.  For no license, leave the field blank. : ",
-        validate: validateString,
-        markdownFormat: "text",
-        sectionTitle: "License",
+        message: "Do you want a license badge on your repo?",
+        markdownFormat: "",
+        sectionTitle: "",
     },
     {
         type: "input",
@@ -142,59 +146,71 @@ const questions = [
     // },
 ];
 
-const questionKeys = {
-    projectTitle: "title",
-    projectDescription: "text",
-    languagesUsed: "list",
-    technologiesUsed: "list",
-};
+async function mainApp() {
+    const answers = await inquirer.prompt(questions);
 
-// inquirer.prompt(questions).then((answers) => {
-//     console.log(answers);
-// });
+    // const answers = {
+    //     projectTitle: "09-README-Generator",
+    //     projectDescription:
+    //         "This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.",
+    //     liveURL: "",
+    //     screenshotURL: "",
+    //     languagesUsed: "Javascript",
+    //     technologiesUsed: "Node.js, inquirer, chalk",
+    //     installationInstructions: "",
+    //     usageInstructions:
+    //         "To use this application, run `node index.js` A series of prompts will be generated, answer each as fully as possible.  If a list is required, enter comma separated values.  If you don't wish to answer a question leave it blank.",
+    //     optionalLicense: true,
+    //     contributingInfo: "",
+    //     tests: "",
+    //     userIcon:
+    //         "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
+    //     userEmail: "james@jamestlee.ca",
+    //     userTwitter: "",
+    //     GHUsername: "titanian229",
+    // };
 
-const answers = {
-    projectTitle: "09-README-Generator",
-    projectDescription:
-        "This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.",
-    liveURL: "",
-    screenshotURL: "",
-    languagesUsed: "Javascript",
-    technologiesUsed: "Node.js, inquirer, chalk",
-    installationInstructions: "",
-    usageInstructions:
-        "To use this application, run `node index.js` A series of prompts will be generated, answer each as fully as possible.  If a list is required, enter comma separated values.  If you don't wish to answer a question leave it blank.",
-    optionalLicense: "",
-    contributingInfo: "",
-    tests: "",
-    userIcon:
-        "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
-    userEmail: "james@jamestlee.ca",
-    userTwitter: "",
-    GHUsername: "titanian229",
-};
+    let tempFC = "";
 
-let tempFC = "";
+    let GHUsername = answers.GHUsername;
+    let repoName = answers.projectTitle;
 
-let GHUsername = answers.GHUsername;
-let repoName = answers.projectTitle;
+    questions.forEach(function (q) {
+        let answer = answers[q.name];
+        // console.log(q, fm.format(answer, q.markdownFormat));
+        console.log("LOGGING QUESTION ", answer, q.name);
+        if (answer != "" && q.markdownFormat != "") {
+            if (q.sectionTitle != "") {
+                tempFC += fm.format(q.sectionTitle, "sectionTitle");
+            }
+            tempFC += "\n" + fm.format(answer, q.markdownFormat) + "\n";
 
-questions.forEach(function (q) {
-    let answer = answers[q.name];
-    // console.log(q, fm.format(answer, q.markdownFormat));
-
-    if (answer != "") {
-        if (q.sectionTitle != "") {
-            tempFC += fm.format(q.sectionTitle, "sectionTitle");
+            if (q.name === "projectDescription") {
+                if (answers.optionalLicense && GHUsername != "") {
+                    tempFC += `\n[![GitHub license](https://img.shields.io/github/license/${GHUsername}/${repoName}.svg)](https://github.com/${GHUsername}/${repoName}/blob/master/LICENSE)\n`;
+                }
+            }
         }
-        tempFC += "\n" + fm.format(answer, q.markdownFormat) + "\n";
-        if (q.name === "optionalLicense" && GHUsername != "") {
-            tempFC += `[![GitHub license](https://img.shields.io/github/license/${GHUsername}/StrapDown.js.svg)](https://github.com/${GHUsername}/StrapDown.js/blob/master/LICENSE)`;
+    });
+
+    if (GHUsername != "") {
+        tempFC += "\n" + fm.format("Author", "title") + "\n";
+        tempFC += "Created by " + GHUsername;
+        if (answers.userIcon) {
+            tempFC += "\n" + fm.format(answers.userIcon, "icon");
+        }
+        if (answers.userEmail) {
+            tempFC += "\n" + answers.userEmail + "\n";
+        }
+        if (answers.userTwitter) {
+            tempFC += "\n" + answers.userTwitter + "\n";
         }
     }
-});
 
-const readmeFile = "./README.md";
+    const readmeFile = "./README.md";
 
-// //Emptying file of contents and writing the new ones
-fs.writeFileSync(readmeFile, tempFC);
+    // //Emptying file of contents and writing the new ones
+    fs.writeFileSync(readmeFile, tempFC);
+}
+
+mainApp();
