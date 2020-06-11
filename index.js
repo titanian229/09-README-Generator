@@ -8,6 +8,10 @@ function validateString(str) {
     return typeof str === "string";
 }
 
+function requireInput(str) {
+    return str == "" ? false : true;
+}
+
 // function appendFile()
 
 const questions = [
@@ -15,18 +19,24 @@ const questions = [
         type: "input",
         name: "GHUsername",
         message: "What is your GitHub username?  Required\n",
-        validate: function (inp) {
-            return inp == "" ? false : true;
-        },
+        validate: requireInput,
+        markdownFormat: "",
+        sectionTitle: "",
+    },
+    {
+        type: "input",
+        name: "reponame",
+        message: "What is the name of your repository?\n",
+        validate: requireInput,
         markdownFormat: "",
         sectionTitle: "",
     },
     {
         type: "input",
         name: "projectTitle",
-        message: "What is the name of your repository? : ",
+        message: "What is the title of your project? : ",
         validate: validateString,
-        markdownFormat: "title",
+        markdownFormat: "",
         sectionTitle: "",
     },
     {
@@ -34,7 +44,7 @@ const questions = [
         name: "projectDescription",
         message:
             "Describe your project and introduce it. What was your motivation for making the project? What is the purpose of your project?\n",
-        validate: validateString,
+        validate: requireInput,
         markdownFormat: "text",
         sectionTitle: "",
     },
@@ -147,70 +157,81 @@ const questions = [
 ];
 
 async function mainApp() {
-    const answers = await inquirer.prompt(questions);
+    // const answers = await inquirer.prompt(questions);
 
-    // const answers = {
-    //     projectTitle: "09-README-Generator",
-    //     projectDescription:
-    //         "This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.",
-    //     liveURL: "",
-    //     screenshotURL: "",
-    //     languagesUsed: "Javascript",
-    //     technologiesUsed: "Node.js, inquirer, chalk",
-    //     installationInstructions: "",
-    //     usageInstructions:
-    //         "To use this application, run `node index.js` A series of prompts will be generated, answer each as fully as possible.  If a list is required, enter comma separated values.  If you don't wish to answer a question leave it blank.",
-    //     optionalLicense: true,
-    //     contributingInfo: "",
-    //     tests: "",
-    //     userIcon:
-    //         "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
-    //     userEmail: "james@jamestlee.ca",
-    //     userTwitter: "",
-    //     GHUsername: "titanian229",
-    // };
+    const answers = {
+        GHUsername: "titanian229",
+        reponame: "09-README-Generator",
+        projectTitle: "README-Generator",
+        projectDescription:
+            "This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.",
+        liveURL: "",
+        screenshotURL: "",
+        languagesUsed: "Javascript",
+        technologiesUsed: "Node.js, inquirer, chalk",
+        installationInstructions: "",
+        usageInstructions:
+            "To use this application, run `node index.js` A series of prompts will be generated, answer each as fully as possible.  If a list is required, enter comma separated values.  If you don't wish to answer a question leave it blank.",
+        optionalLicense: true,
+        contributingInfo: "",
+        tests: "",
+        userIcon:
+            "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
+        userEmail: "james@jamestlee.ca",
+        userTwitter: "",
+    };
 
-    let tempFC = "";
+    //creating a list composed of the sections
+    sectionsList = [];
 
+    //important information required, username and repo name
     let GHUsername = answers.GHUsername;
-    let repoName = answers.projectTitle;
+    let reponame = answers.reponame;
+
+    //First generating a header
+    sectionsList.push(
+        `${fm.format(
+            answers.projectTitle != "" ? answers.projectTitle : answers.reponame,
+            "title"
+        )}\n${answers.projectDescription}`
+    );
+
+    //Adding badges
+    if (answers.optionalLicense) {
+        tempFC += `\n[![GitHub license](https://img.shields.io/github/license/${GHUsername}/${repoName}.svg)](https://github.com/${GHUsername}/${repoName}/blob/master/LICENSE)\n`;
+    }
 
     questions.forEach(function (q) {
         let answer = answers[q.name];
-        // console.log(q, fm.format(answer, q.markdownFormat));
-        console.log("LOGGING QUESTION ", answer, q.name);
+
         if (answer != "" && q.markdownFormat != "") {
             if (q.sectionTitle != "") {
-                tempFC += fm.format(q.sectionTitle, "sectionTitle");
+                sectionsList.push(fm.format(q.sectionTitle, "sectionTitle"));
             }
-            tempFC += "\n" + fm.format(answer, q.markdownFormat) + "\n";
-
-            if (q.name === "projectDescription") {
-                if (answers.optionalLicense && GHUsername != "") {
-                    tempFC += `\n[![GitHub license](https://img.shields.io/github/license/${GHUsername}/${repoName}.svg)](https://github.com/${GHUsername}/${repoName}/blob/master/LICENSE)\n`;
-                }
-            }
+            sectionsList.push("\n" + fm.format(answer, q.markdownFormat) + "\n");
         }
     });
 
-    if (GHUsername != "") {
-        tempFC += "\n" + fm.format("Author", "title") + "\n";
-        tempFC += "Created by " + GHUsername;
-        if (answers.userIcon) {
-            tempFC += "\n" + fm.format(answers.userIcon, "icon");
-        }
-        if (answers.userEmail) {
-            tempFC += "\n" + answers.userEmail + "\n";
-        }
-        if (answers.userTwitter) {
-            tempFC += "\n" + answers.userTwitter + "\n";
-        }
+    //Adding footer
+    sectionsList.push("\n" + fm.format("Author", "sectionTitle") + "\n");
+    sectionsList.push("Created by " + GHUsername);
+    if (answers.userIcon) {
+        sectionsList.push("\n" + fm.format(answers.userIcon, "icon"));
     }
+    if (answers.userEmail) {
+        sectionsList.push("\n" + answers.userEmail + "\n");
+    }
+    if (answers.userTwitter) {
+        sectionsList.push("\n" + answers.userTwitter + "\n");
+    }
+
+    //Adding table of content if over certain length
+    console.log(sectionsList)
 
     const readmeFile = "./README.md";
 
     // //Emptying file of contents and writing the new ones
-    fs.writeFileSync(readmeFile, tempFC);
+    // fs.writeFileSync(readmeFile, sectionsList.join());
 }
 
 mainApp();

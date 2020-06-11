@@ -1,5 +1,4 @@
 exports.format = function (text, type) {
-    console.log(text)
     if (text.indexOf("`") > -1) {
         text = text.split("`").join("\n```\n");
     }
