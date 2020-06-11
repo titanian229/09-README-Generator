@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
+const formatMarkdown = require("./utilities/formatMarkdown");
 
 function validateString(str) {
     // Checks input is a string
@@ -90,9 +91,9 @@ const questions = [
     // },
 ];
 
-inquirer.prompt(questions).then((answers) => {
-    console.log(answers);
-});
+// inquirer.prompt(questions).then((answers) => {
+//     console.log(answers);
+// });
 
 const dummyData = {
     projectTitle: "README-Generator",
@@ -102,10 +103,14 @@ const dummyData = {
     technologiesUsed: "Node.js, inquirer, chalk",
     installationInstructions: "",
     usageInstructions:
-        "To use this application, run `node index.js`\nA series of prompts will be generated, answer each as fully as possible.  If a list is required, enter comma seperated values.  If you don't wish to answer a question leave it blank.",
+        "To use this application, run `node index.js` A series of prompts will be generated, answer each as fully as possible.  If a list is required, enter comma separated values.  If you don't wish to answer a question leave it blank.",
     optionalLicense: "",
     contributingInfo: "",
     tests: "",
-    userIcon: "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
+    userIcon:
+        "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
     userEmail: "james@jamestlee.ca",
 };
+
+const readmeFile = "./README.md";
+console.log(formatMarkdown.format('testtitle', 'title'))
