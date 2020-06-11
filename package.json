@@ -1,0 +1,25 @@
+{
+  "name": "readme-generator",
+  "version": "1.0.0",
+  "description": "a simple nodejs generator for creating and populating git readme files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/titanian229/09-README-Generator.git"
+  },
+  "keywords": [
+    "node",
+    "readme",
+    "git",
+    "github"
+  ],
+  "author": "JamesLee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/titanian229/09-README-Generator/issues"
+  },
+  "homepage": "https://github.com/titanian229/09-README-Generator#readme"
+}
