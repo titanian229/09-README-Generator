@@ -215,7 +215,7 @@ async function mainApp() {
     }
 
     //Adding table of content if over certain length
-    if (contentsList.length > 3 || sectionsList.join('').length > 300) {
+    if (contentsList.length > 3 || sectionsList.join("").length > 300) {
         contentsList = contentsList.map(function (item) {
             return fm.format(item, "contentsItem");
         });
