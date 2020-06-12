@@ -35,4 +35,7 @@ exports.format = function (text, type) {
         <img src="${text}" width="75" title="UserIcon">
       </p>`;
     }
+    if (type === 'contentsItem'){
+        return `[${text}](#${encodeURIComponent(text)})`
+    }
 };

@@ -132,6 +132,13 @@ const questions = [
         sectionTitle: "",
     },
     {
+        type: "confirm",
+        name: "optionalDownloadsBadge",
+        message: "Do you want to add a downloads badge?",
+        markdownFormat: "",
+        sectionTitle: "",
+    },
+    {
         type: "input",
         name: "contributingInfo",
         message: "How can other developers contribute to your project?\n",
@@ -179,10 +186,12 @@ async function mainApp() {
             "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
         userEmail: "james@jamestlee.ca",
         userTwitter: "",
+        optionalDownloadsBadge: true,
     };
 
     //creating a list composed of the sections
     sectionsList = [];
+    contentsList = [];
 
     //important information required, username and repo name
     let GHUsername = answers.GHUsername;
@@ -198,7 +207,10 @@ async function mainApp() {
 
     //Adding badges
     if (answers.optionalLicense) {
-        tempFC += `\n[![GitHub license](https://img.shields.io/github/license/${GHUsername}/${repoName}.svg)](https://github.com/${GHUsername}/${repoName}/blob/master/LICENSE)\n`;
+        sectionsList[1] += `\n\n[![GitHub license](https://img.shields.io/github/license/${GHUsername}/${reponame}.svg)](https://github.com/${GHUsername}/${reponame}/blob/master/LICENSE)\n`;
+    }
+    if (answers.optionalDownloadsBadge) {
+        sectionsList[1] += ` [![Github all releases](https://img.shields.io/github/downloads/${GHUsername}/${reponame}/total.svg)](https://GitHub.com/${GHUsername}/${reponame}/releases/)`;
     }
 
     questions.forEach(function (q) {
@@ -207,6 +219,7 @@ async function mainApp() {
         if (answer != "" && q.markdownFormat != "") {
             if (q.sectionTitle != "") {
                 sectionsList.push(fm.format(q.sectionTitle, "sectionTitle"));
+                contentsList.push(q.sectionTitle);
             }
             sectionsList.push("\n" + fm.format(answer, q.markdownFormat) + "\n");
         }
@@ -226,12 +239,21 @@ async function mainApp() {
     }
 
     //Adding table of content if over certain length
-    console.log(sectionsList)
+    if (sectionsList.join().length > 300) {
+        contentsList = contentsList.map(function (item) {
+            return fm.format(item, "contentsItem");
+        });
+        contentsList.unshift(fm.format("Table of Contents", "sectionTitle"));
+        contentsList.push("\n\n");
+        sectionsList.splice(2, 0, contentsList.join("\n\n"));
+    }
 
     const readmeFile = "./README.md";
 
-    // //Emptying file of contents and writing the new ones
-    // fs.writeFileSync(readmeFile, sectionsList.join());
+    // Emptying file of contents and writing the new ones
+    fs.writeFileSync(readmeFile, sectionsList.join(""));
+
+    // sectionsList.forEach(function(i){console.log(i)})
 }
 
 mainApp();
