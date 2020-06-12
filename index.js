@@ -165,6 +165,7 @@ const questions = [
 async function mainApp() {
     const answers = await inquirer.prompt(questions);
 
+
     //creating a list composed of the sections
     sectionsList = [];
     contentsList = [];
@@ -180,15 +181,16 @@ async function mainApp() {
             "title"
         )}\n${answers.projectDescription}`
     );
-
     //Adding badges
+
     if (answers.optionalLicense) {
-        sectionsList[1] += `\n\n[![GitHub license](https://img.shields.io/github/license/${GHUsername}/${reponame}.svg)](https://github.com/${GHUsername}/${reponame}/blob/master/LICENSE)\n`;
-    }
-    if (answers.optionalDownloadsBadge) {
-        sectionsList[1] += ` [![Github all releases](https://img.shields.io/github/downloads/${GHUsername}/${reponame}/total.svg)](https://GitHub.com/${GHUsername}/${reponame}/releases/)`;
+        sectionsList[0] += `\n\n[![GitHub license](https://img.shields.io/github/license/${GHUsername}/${reponame}.svg)](https://github.com/${GHUsername}/${reponame}/blob/master/LICENSE)\n`;
     }
 
+    if (answers.optionalDownloadsBadge) {
+        sectionsList[0] += `[![Github all releases](https://img.shields.io/github/downloads/${GHUsername}/${reponame}/total.svg)](https://GitHub.com/${GHUsername}/${reponame}/releases/)`;
+    }
+    
     questions.forEach(function (q) {
         let answer = answers[q.name];
 
@@ -215,7 +217,7 @@ async function mainApp() {
     }
 
     //Adding table of content if over certain length
-    if (contentsList.length > 3 || sectionsList.join('').length > 300) {
+    if (contentsList.length > 3 || sectionsList.join("").length > 300) {
         contentsList = contentsList.map(function (item) {
             return fm.format(item, "contentsItem");
         });
@@ -228,8 +230,6 @@ async function mainApp() {
 
     // Emptying file of contents and writing the new ones
     fs.writeFileSync(readmeFile, sectionsList.join(""));
-
-    // sectionsList.forEach(function(i){console.log(i)})
 }
 
 mainApp();
