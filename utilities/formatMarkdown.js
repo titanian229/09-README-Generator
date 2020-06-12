@@ -36,6 +36,6 @@ exports.format = function (text, type) {
       </p>`;
     }
     if (type === 'contentsItem'){
-        return `[${text}](#${encodeURIComponent(text)})`
+        return ` * [${text}](#${encodeURIComponent(text)})`
     }
 };

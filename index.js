@@ -17,6 +17,14 @@ function requireInput(str) {
 const questions = [
     {
         type: "input",
+        name: "userName",
+        message: "What is your name?\n",
+        validate: requireInput,
+        markdownFormat: "",
+        sectionTitle: "",
+    },
+    {
+        type: "input",
         name: "GHUsername",
         message: "What is your GitHub username?  Required\n",
         validate: requireInput,
@@ -168,6 +176,7 @@ async function mainApp() {
 
     const answers = {
         GHUsername: "titanian229",
+        userName: "James Lee",
         reponame: "09-README-Generator",
         projectTitle: "README-Generator",
         projectDescription:
@@ -227,7 +236,7 @@ async function mainApp() {
 
     //Adding footer
     sectionsList.push("\n" + fm.format("Author", "sectionTitle") + "\n");
-    sectionsList.push("Created by " + GHUsername);
+    sectionsList.push(`Created by ${answers.userName} (${GHUsername})`);
     if (answers.userIcon) {
         sectionsList.push("\n" + fm.format(answers.userIcon, "icon"));
     }
