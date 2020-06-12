@@ -112,7 +112,7 @@ const questions = [
             "List the technologies your project used, including APIs, external libraries (separated by commas)\n",
         validate: validateString,
         markdownFormat: "list",
-        sectionTitle: "Technologies, APIs, External Libaries",
+        sectionTitle: "Technologies, APIs, External Libraries",
     },
     {
         type: "input",
@@ -248,7 +248,7 @@ async function mainApp() {
     }
 
     //Adding table of content if over certain length
-    if (sectionsList.join().length > 300) {
+    if (contentsList.length > 3 || sectionsList.join('').length > 300) {
         contentsList = contentsList.map(function (item) {
             return fm.format(item, "contentsItem");
         });
