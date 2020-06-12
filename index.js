@@ -51,7 +51,7 @@ const questions = [
         message:
             "Describe your project and introduce it. What was your motivation for making the project? What is the purpose of your project?\n",
         validate: requireInput,
-        markdownFormat: "text",
+        markdownFormat: "",
         sectionTitle: "",
     },
     {
@@ -215,7 +215,7 @@ async function mainApp() {
     }
 
     //Adding table of content if over certain length
-    if (contentsList.length > 3 || sectionsList.join("").length > 300) {
+    if (contentsList.length > 3 || sectionsList.join('').length > 300) {
         contentsList = contentsList.map(function (item) {
             return fm.format(item, "contentsItem");
         });
@@ -228,6 +228,8 @@ async function mainApp() {
 
     // Emptying file of contents and writing the new ones
     fs.writeFileSync(readmeFile, sectionsList.join(""));
+
+    // sectionsList.forEach(function(i){console.log(i)})
 }
 
 mainApp();

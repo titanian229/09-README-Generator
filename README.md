@@ -10,21 +10,19 @@ This is a simple Node.js application for generator descriptive readmes properly 
 
  * [Languages Used](#Languages%20Used)
 
- * [Technologies, APIs, External Libaries](#Technologies%2C%20APIs%2C%20External%20Libaries)
+ * [Technologies, APIs, External Libraries](#Technologies%2C%20APIs%2C%20External%20Libraries)
 
  * [Usage](#Usage)
 
 
 
 
-This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.
-
 ## Languages Used
 
 * Javascript
 
 
-## Technologies, APIs, External Libaries
+## Technologies, APIs, External Libraries
 
 * Node.js
 * inquirer
