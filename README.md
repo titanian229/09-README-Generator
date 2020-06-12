@@ -1,7 +1,7 @@
 
 # README-Generator
 
-This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.undefined
+This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.
 
 [![GitHub license](https://img.shields.io/github/license/titanian229/09-README-Generator.svg)](https://github.com/titanian229/09-README-Generator/blob/master/LICENSE)
  [![Github all releases](https://img.shields.io/github/downloads/titanian229/09-README-Generator/total.svg)](https://GitHub.com/titanian229/09-README-Generator/releases/)
