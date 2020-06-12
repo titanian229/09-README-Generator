@@ -5,8 +5,6 @@ This is a simple Node.js application for generator descriptive readmes properly 
 
 [![GitHub license](https://img.shields.io/github/license/titanian229/09-README-Generator.svg)](https://github.com/titanian229/09-README-Generator/blob/master/LICENSE)
 [![Github all releases](https://img.shields.io/github/downloads/titanian229/09-README-Generator/total.svg)](https://GitHub.com/titanian229/09-README-Generator/releases/)
-## Languages Used
-
 ## Table of Contents
 
 
@@ -18,6 +16,8 @@ This is a simple Node.js application for generator descriptive readmes properly 
 
 
 
+
+## Languages Used
 
 * Javascript
 

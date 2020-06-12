@@ -165,7 +165,6 @@ const questions = [
 async function mainApp() {
     const answers = await inquirer.prompt(questions);
 
-
     //creating a list composed of the sections
     sectionsList = [];
     contentsList = [];
@@ -190,7 +189,7 @@ async function mainApp() {
     if (answers.optionalDownloadsBadge) {
         sectionsList[0] += `[![Github all releases](https://img.shields.io/github/downloads/${GHUsername}/${reponame}/total.svg)](https://GitHub.com/${GHUsername}/${reponame}/releases/)`;
     }
-    
+
     questions.forEach(function (q) {
         let answer = answers[q.name];
 
@@ -223,7 +222,7 @@ async function mainApp() {
         });
         contentsList.unshift(fm.format("Table of Contents", "sectionTitle"));
         contentsList.push("\n\n");
-        sectionsList.splice(2, 0, contentsList.join("\n\n"));
+        sectionsList.splice(1, 0, contentsList.join("\n\n"));
     }
 
     const readmeFile = "./README.md";
