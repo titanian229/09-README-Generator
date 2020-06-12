@@ -12,8 +12,6 @@ function requireInput(str) {
     return str == "" ? false : true;
 }
 
-// function appendFile()
-
 const questions = [
     {
         type: "input",
@@ -162,41 +160,10 @@ const questions = [
         markdownFormat: "text",
         sectionTitle: "Tests",
     },
-
-    // {
-    //     type: 'input',
-    //     name: ,
-    //     message: ,
-    //     validate: validateString,
-    // },
 ];
 
 async function mainApp() {
     const answers = await inquirer.prompt(questions);
-
-    // const answers = {
-    //     GHUsername: "titanian229",
-    //     userName: "James Lee",
-    //     reponame: "09-README-Generator",
-    //     projectTitle: "README-Generator",
-    //     projectDescription:
-    //         "This is a simple Node.js application for generator descriptive readmes properly formatted in markdown.  It was created to simplify the process of generating descriptive readmes for projects, and to increase the quality of readmes generated.",
-    //     liveURL: "",
-    //     screenshotURL: "",
-    //     languagesUsed: "Javascript",
-    //     technologiesUsed: "Node.js, inquirer, chalk",
-    //     installationInstructions: "",
-    //     usageInstructions:
-    //         "To use this application, run `node index.js` A series of prompts will be generated, answer each as fully as possible.  If a list is required, enter comma separated values.  If you don't wish to answer a question leave it blank.",
-    //     optionalLicense: true,
-    //     contributingInfo: "",
-    //     tests: "",
-    //     userIcon:
-    //         "https://avatars0.githubusercontent.com/u/48775473?s=460&u=2130e97623abb5b698c95a9b8de38f8bb767b1a2&v=4",
-    //     userEmail: "james@jamestlee.ca",
-    //     userTwitter: "",
-    //     optionalDownloadsBadge: true,
-    // };
 
     //creating a list composed of the sections
     sectionsList = [];
@@ -261,8 +228,6 @@ async function mainApp() {
 
     // Emptying file of contents and writing the new ones
     fs.writeFileSync(readmeFile, sectionsList.join(""));
-
-    // sectionsList.forEach(function(i){console.log(i)})
 }
 
 mainApp();
